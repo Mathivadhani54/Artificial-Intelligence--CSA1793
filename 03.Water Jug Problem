@@ -1,0 +1,35 @@
+from collections import deque
+
+def water_jug_solver(jug1_capacity, jug2_capacity, target):
+    initial_state = (0, 0)
+    queue = deque([initial_state])
+    visited = set([initial_state])
+    path = {initial_state: None}
+
+    while queue:
+        jug1, jug2 = queue.popleft()
+        if jug1 == target or jug2 == target:
+            break
+        next_states = [
+            (jug1_capacity, jug2), (jug1, jug2_capacity), 
+            (0, jug2), (jug1, 0), 
+            (jug1 - min(jug1, jug2_capacity - jug2), jug2 + min(jug1, jug2_capacity - jug2)), 
+            (jug1 + min(jug2, jug1_capacity - jug1), jug2 - min(jug2, jug1_capacity - jug1))
+        ]
+        for state in next_states:
+            if state not in visited:
+                queue.append(state)
+                visited.add(state)
+                path[state] = (jug1, jug2)
+
+    result_path = []
+    state = (jug1, jug2)
+    while state is not None:
+        result_path.append(state)
+        state = path[state]
+    
+    return list(reversed(result_path))
+
+solution = water_jug_solver(4, 3, 2)
+print("Steps to reach the target:", solution)
+
