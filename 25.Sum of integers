@@ -1,0 +1,5 @@
+def sum_of_integers(n):
+    return sum(range(1, n + 1))
+
+result = sum_of_integers(10)
+print(result)
