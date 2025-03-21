@@ -1,0 +1,28 @@
+from collections import deque
+
+def is_valid(state):
+    m, c, b = state
+    return (0 <= m <= 3 and 0 <= c <= 3 and (m == 0 or m >= c) and (m == 3 or 3 - m >= 3 - c))
+
+def successors(state):
+    m, c, b = state
+    transitions = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]
+    return [(m - dm * b, c - dc * b, 1 - b) for dm, dc in transitions]
+
+def missionaries_cannibals():
+    initial = (3, 3, 1)
+    goal = (0, 0, 0)
+    queue = deque([(initial, [])])
+    visited = set([initial])
+    
+    while queue:
+        state, path = queue.popleft()
+        if state == goal:
+            return path + [goal]
+        for next_state in successors(state):
+            if is_valid(next_state) and next_state not in visited:
+                visited.add(next_state)
+                queue.append((next_state, path + [state]))
+
+solution = missionaries_cannibals()
+print("Solution path:", solution)
