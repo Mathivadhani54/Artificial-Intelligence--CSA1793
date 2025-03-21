@@ -1,0 +1,26 @@
+class VacuumCleaner:
+    def __init__(self, grid):
+        self.grid = grid
+        self.x = 0
+        self.y = 0
+
+    def clean(self):
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[i])):
+                self.x, self.y = i, j
+                if self.grid[i][j] == 1:
+                    self.grid[i][j] = 0
+                    print(f"Cleaned dirt at ({i}, {j})")
+
+    def display_grid(self):
+        for row in self.grid:
+            print(row)
+grid = [
+    [1, 0],
+    [0, 1]
+]
+
+vacuum = VacuumCleaner(grid)
+vacuum.display_grid()  # Display initial grid
+vacuum.clean()
+vacuum.display_grid()  # Display grid after cleaning
